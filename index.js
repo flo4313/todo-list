@@ -1,9 +1,21 @@
 class Task extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            task: this.props.task,
+            todo : this.props.remove
+        }
+        this.removeTodo = this.removeTodo.bind(this)
+    }
+
+    removeTodo(){
+        this.state.todo(this.state.task)
+    }
 
     render() {
         return React.createElement("div", null,
             React.createElement("li", { style: {} }, [this.props.title, "   ",
-            React.createElement("button", null, "Remove")]))
+            React.createElement("button", {onClick:this.removeTodo, id:this.props.title}, "Remove")]))
     }
 }
 
@@ -14,6 +26,7 @@ class TaskList extends React.Component {
             tasks: this.props.tasks
         }
         this.addTask = this.addTask.bind(this)
+        this.removeTodo = this.removeTodo.bind(this)
     }
 
 
@@ -23,11 +36,17 @@ class TaskList extends React.Component {
         this.setState({ tasks: newTasks })
     }
 
+
+    removeTodo(task) {
+        let newTasks = this.state.tasks.filter(e => e!= task)
+        this.setState({ tasks: newTasks })
+    }
+
     render() {
         return (
             React.createElement("div", { style: { display: "inline-block" } },
                 React.createElement("h2", null, this.props.title),
-                React.createElement("ul", null, this.state.tasks.map((t, index) => React.createElement(Task, { key: index, id: index, title: t }))),
+                React.createElement("ul", null, this.state.tasks.map((t, index) => React.createElement(Task, { key: index, id: index, title: t, task: t, remove: this.removeTodo }))),
                 React.createElement(Form, { addTask: this.addTask })
             )
         )
