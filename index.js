@@ -38,7 +38,7 @@ class TaskList extends React.Component {
 
 
     removeTodo(task) {
-        let newTasks = this.state.tasks.filter(e => e!= task)
+        let newTasks = this.state.tasks.filter((e,index) => index!= task)
         this.setState({ tasks: newTasks })
     }
 
@@ -46,7 +46,7 @@ class TaskList extends React.Component {
         return (
             React.createElement("div", { style: { display: "inline-block" } },
                 React.createElement("h2", null, this.props.title),
-                React.createElement("ul", null, this.state.tasks.map((t, index) => React.createElement(Task, { key: index, id: index, title: t, task: t, remove: this.removeTodo }))),
+                React.createElement("ul", null, this.state.tasks.map((t, index) => React.createElement(Task, { key: index, id: index, title: t, task: index, remove: this.removeTodo }))),
                 React.createElement(Form, { addTask: this.addTask })
             )
         )
